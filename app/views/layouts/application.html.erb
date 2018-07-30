@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blog</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <i class="fab fa-blogger  fa-2x mr-1"></i>
+          <span class="my-0 mr-md-auto font-weight-normal h3 mt-1" >Blog</span>
+          <nav class="my-2 my-md-0 mr-md-3">
+            <%= link_to "Главная" , articles_path , class:"text-dark ml-1 mr-1" %>
+            <%= link_to "Мои статьи" , user_root_path , class:"text-dark ml-1 mr-1"%>
+            <%= link_to "Новая статья" , new_article_path , class:"text-dark ml-1 mr-1"%>
+          </nav>
+          <% if user_signed_in? %>
+
+            <%= link_to 'Выйти', destroy_user_session_path, :method => :delete , class: "btn btn-primary"%>
+          <% else %>
+            <%= link_to 'Войти', new_user_session_path , class: "btn btn-primary mr-1"%> <%= link_to 'Зарегистрироваться', new_user_registration_path , class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </header>
+
+      <div class="mt-2 p-3">
+      <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

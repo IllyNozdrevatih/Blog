@@ -1,0 +1,31 @@
+<h2>Articles</h2>
+<% @articles.each do |article| %>
+  <div class="card mb-4">
+    <%= image_tag article.image.url(:medium) , class:"img-fluid" %>
+    <div class="card-body">
+      <h2 class="card-title"><%= article.name %></h2>
+      <p>
+        <% article.categories.each do |category|%>
+          <small style="font-weight: bold"><%= category.name %></small>
+        <% end%>
+      </p>
+      <p class="card-text">
+        <% if article.description.length > 150 %>
+          <%= article.description[0,148] + '...' %>
+        <% else %>
+          <%= article.description %>
+        <% end %>
+      </p>
+      <%=link_to 'Read More →', article_path(article) , class: "btn btn-primary" %>
+    </div>
+    <div class="row card-footer text-muted m-0 p-1 ">
+      <div class="col">
+        <%= article.updated_at.strftime("%d-%m-%y %T") %>
+      </div>
+      <div class="col justify-content-end pr-3" style="text-align:right">
+        <span><%= article.user.email %></span>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= will_paginate @articles, renderer: BootstrapPagination::Rails %>

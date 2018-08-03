@@ -3,4 +3,5 @@ class Article < ApplicationRecord
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
   validates :name,:description, presence:true
   belongs_to :user
+  has_and_belongs_to_many :categories
 end

@@ -11,12 +11,28 @@
 <% end %>
 <%=  simple_form_for @article, input_html: {multipart: true}  do |f| %>
   <%= f.input :name %>
-  <%= f.input :description %>
-  <%= f.file_field :image %>
+  <%= f.input :description , as: :text , style:"height:200px" %>
+  <div class="h5 mb-1">Категории:</div>
+  <div class="row mb-2">
+    <% @categories.each do |category| %>
+       <div class="col-4">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" name="category[]" value=<%= category.id %>
+              <% if @article.category_ids.include?(category.id)  %>
+                checked
+              <% end %>
+            >
+              <%= category.name %>
+          </label>
+        </div>
+       </div>
+    <% end %>
+  </div>
+  <%= f.file_field :image ,class:"mt-1 mb-1"%>
   <div style="width: 100%"></div>
   <%= f.button :submit, class:"mt-2"%>
 <% end %>
-
 <%#= form_for @article ,url: articles_path, html: {multipart: true} do |f| %>
 <!--    <div class="form-group">-->
       <%#= f.label :name %>

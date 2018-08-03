@@ -2,9 +2,10 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :find_article , only: [:edit, :update ,:show ,:destroy]
+  before_action :get_categories , only: [:edit , :new]
 
   def index
-    @articles = Article.order(updated_at: :desc).page(params[:page]).per_page(4).includes(:user)
+    @articles = Article.order(updated_at: :desc).page(params[:page]).per_page(4).includes(:user ,:categories)
   end
   def show
   end
@@ -12,8 +13,7 @@ class ArticlesController < ApplicationController
     @article = Article.new
   end
   def create
-    @article = Article.new
-    current_user.article.create(article_params)
+    current_user.article.create(article_params).categories << [Category.find(add_category)]
     if current_user.article
       redirect_to articles_path
     else
@@ -24,6 +24,8 @@ class ArticlesController < ApplicationController
 
   end
   def update
+    @article.categories.clear
+    @article.categories << [Category.find(add_category)]
     if @article.update(article_params)
       redirect_to articles_path ,success:'Новость успешно обновлена'
     else
@@ -39,7 +41,13 @@ class ArticlesController < ApplicationController
   def article_params
     params[:article].permit(:name ,:description,:image)
   end
+  def add_category
+    request["category"]
+  end
   def find_article
     @article = Article.find(params[:id])
+  end
+  def get_categories
+    @categories = Category.all
   end
 end

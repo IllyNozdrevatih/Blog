@@ -71,3 +71,4 @@ gem 'magic_encoding'
 gem "paperclip", "~> 6.0.0"
 gem 'devise'
 gem 'will_paginate-bootstrap'
+gem 'dry-transaction'

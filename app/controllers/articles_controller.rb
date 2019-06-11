@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :find_article , only: [:edit, :update ,:show ,:destroy]
@@ -8,12 +9,14 @@ class ArticlesController < ApplicationController
     @articles = Article.order(updated_at: :desc).page(params[:page]).per_page(4).includes(:user ,:categories)
   end
   def show
+
   end
   def new
     @article = Article.new
   end
   def create
     current_user.article.create(article_params).categories << [Category.find(add_category)]
+    
     if current_user.article
       redirect_to articles_path
     else
